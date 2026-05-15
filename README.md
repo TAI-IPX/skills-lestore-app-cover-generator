@@ -48,7 +48,7 @@
 创建 `.env`，填入生图 API：
 
 ```env
-IMAGE_API=openai
+IMAGE_API=<openai / replicate / fal>
 IMAGE_BASE_URL=<你的 API 地址>
 IMAGE_API_KEY=<你的 Key>
 IMAGE_MODEL=<模型名>
