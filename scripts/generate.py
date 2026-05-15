@@ -1,9 +1,8 @@
 """
-通用AI生图客户端 — 零外部依赖。
-通过环境变量配置后端，兼容 OpenAI 及 OpenAI 兼容 API。
+通用AI生图客户端 — 零外部依赖，兼容多种模型 API。
 
 配置方式 (.env):
-  IMAGE_API=openai
+  IMAGE_API=openai              # openai / replicate / fal
   IMAGE_BASE_URL=https://api.openai.com
   IMAGE_API_KEY=sk-xxx
   IMAGE_MODEL=gpt-image-2
