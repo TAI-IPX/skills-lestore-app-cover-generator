@@ -1,24 +1,48 @@
+<div align="center">
+
 # App Store Cover Generator
 
-> 输入 App 名称和简介，自动生成应用商店封面图。
+**输入 App 信息，自动生成应用商店封面展示图**
 
----
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9+-3572A5.svg)](https://python.org)
+[![API](https://img.shields.io/badge/生图_API-OpenAI_%2F_Replicate_%2F_Fal-orange.svg)](#配置)
 
-## 它解决什么问题
+</div>
 
-设计应用商店封面图需要反复沟通视觉方向、挑选风格、调整构图。  
-这个工具把这些决策全部自动化——你只需要告诉它 App 叫什么、做什么用。
+## 目录
 
-## 能做什么
+- [这是什么](#这是什么)
+- [核心功能](#核心功能)
+- [安装](#安装)
+- [配置](#配置)
+- [使用](#使用)
+- [贡献](#贡献)
+- [许可证](#许可证)
 
-- **自动补全信息** — 输入模糊也没关系，工具自主推断视觉方向，不追问
-- **18 种视觉风格轮换** — 每次出图自动切换风格，保证多样性
-- **质量自检** — 生成前自动评分，不达标自动修正再输出
-- **直出可用图** — 16:9 横图，符合主流应用商店尺寸规范
+## 这是什么
 
-## 快速开始
+只需提供 App 名称、分类和一句话介绍，自动完成封面图的视觉推导、风格选择、构图生成和质量验证，最终调用生图 API 直接出图。
 
-创建 `.env` 文件，填入你的生图 API：
+## 核心功能
+
+- **信息自动补全** — 信息不足时自主推断视觉方向，不追问
+- **18 种视觉风格轮换** — 每次出图自动切换风格，确保多样性
+- **主体推导** — 从核心功能提取差异化视觉符号
+- **质量自检** — 自动评分，不达标自动修正
+- **生图输出** — 调用配置的 API 直接出图
+
+## 安装
+
+```bash
+git clone https://github.com/temurlee/skills-lestore-app-cover-generator.git
+cd skills-lestore-app-cover-generator
+pip install -r requirements.txt
+```
+
+## 配置
+
+创建 `.env` 文件：
 
 ```env
 IMAGE_API=<openai / replicate / fal>
@@ -27,20 +51,18 @@ IMAGE_API_KEY=<你的 Key>
 IMAGE_MODEL=<模型名>
 ```
 
-支持 OpenAI 兼容接口及 Replicate、Fal.ai。
+## 使用
 
-## 示例
-
-```
-输入：美团 · 生活服务 · 外卖美食买菜打车酒店火车票
-
-输出：
-  风格 → 好莱坞科幻大片超级写实风格（金蓝辉光/星云紫）
-  构图 → 天空主导式，装满美食的外卖箱，食材欢快飞出
-  质量 → 40/50 ✅ 通过
-  → 16:9 横图，可直接用于应用商店首页
+```bash
+python main.py --app "美团" --category "生活服务" --desc "外卖美食买菜打车酒店火车票"
 ```
 
----
+## 贡献
 
-by [temurlee](https://github.com/temurlee)
+1. Fork 本仓库
+2. 创建分支：`git checkout -b feature/你的功能`
+3. 提交改动并发起 Pull Request
+
+## 许可证
+
+[MIT](./LICENSE)
