@@ -40,7 +40,3 @@ IMAGE_MODEL=<模型名>
   质量 → 40/50 ✅ 通过
   → 16:9 横图，可直接用于应用商店首页
 ```
-
----
-
-by [temurlee](https://github.com/temurlee)
