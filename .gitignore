@@ -1,0 +1,44 @@
+# ─ 敏感信息 ────────────────────────────────────────
+.env
+.env.local
+*.key
+*.pem
+
+# ─ 输出产物（每个人本地不同，不进版本控制） ─────────
+output/
+data/
+dist/
+*.jpg
+*.jpeg
+*.png
+*.zip
+!references/**/*.png
+!references/**/*.jpg
+
+# ─ Python ─────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+
+# ─ IDE / 编辑器 ───────────────────────────────────
+.vscode/
+.idea/
+.cursor/
+.claude/
+*.swp
+*.swo
+
+# ─ 系统 ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─ 日志 ───────────────────────────────────────────
+*.log
+logs/
