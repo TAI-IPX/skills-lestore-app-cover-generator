@@ -1,76 +1,58 @@
 # App Store Cover Generator
 
-输入 App 信息（CSV 批量），自动生成 16:9 横版应用商店封面图。
+输入 App 名称、分类和一句话简介，自动生成 16:9 横版应用商店封面图。
 
----
-
-## 🚀 快速开始（5 分钟跑通第一张图）
-
-### 1. 准备环境
-```bash
-# Python 3.9+
-python3 --version
-
-# 克隆/解压本项目后，进入项目目录
-cd app-store-cover-generator
-
-# 安装依赖（建议先创建虚拟环境）
-python3 -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-### 2. 配置 API Key（二选一）
-```bash
-# 方式 A：环境变量（推荐，不留文件）
-export PACKY_API_KEY='sk-your_real_key_here'
-
-# 方式 B：.env 文件（适合本地长期开发）
-cp .env.example .env
-# 然后编辑 .env，填入 PACKY_API_KEY
-```
-
-> 申请 Packy API Key：<https://www.packyapi.com>（兼容 OpenAI 协议，默认模型 `gpt-image-2`）
-
-### 3. 准备 CSV 数据
-CSV 必须包含以下列（中文括号写法也支持）：
-```
-PACKAGE_NAME, APP_NAME, S_INTRO, ICON_URL, NAME, PARENT_ID
-[或]   包名(PACKAGE_NAME), 应用名称(APP_NAME), 简介(S_INTRO), 图标URL(ICON_URL), 分类(NAME), 父分类ID(PARENT_ID)
-```
-
-将文件放到 `data/input.csv` 或运行时用 `--csv` 指定路径。
-
-### 4. 跑第一批
-```bash
-# 跑 CSV 第 1-5 行
-python3 scripts/batch_generate.py --start 1 --end 5
-
-# 指定 CSV 和输出目录
-python3 scripts/batch_generate.py \
-  --csv /path/to/your.csv \
-  --outdir /path/to/output \
-  --start 1 --end 20
-
-# 强制指定风格（1-12，游戏类禁用 7/8/12 自动顺延）
-python3 scripts/batch_generate.py --start 1 --end 5 --style 9
-```
-
-输出默认存到 `output/covers/`，文件名格式 `<PACKAGE_NAME>.jpg`，单张 ≤ 200KB。
+![效果预览](preview.png)
 
 ---
 
 ## 它能做什么
 
-只需提供 App 名称、分类和一句话介绍，自动完成：
-
 - **品牌色提取** — 从 ICON 提取主色，提升为高饱和高明度版本
-- **主体推导** — S_INTRO 提取2词 → HUMAN_DESC 补充 → SUBJECT_POOL 兜底
+- **主体推导** — 从简介提取2词 → HUMAN_DESC 补充 → SUBJECT_POOL 兜底
 - **分类驱动风格** — 每个分类有专属风格池，按行号轮选（如母婴用 [4羊毛毡, 9粘土, 3CG厚涂, 2 3D立体]）
 - **分类驱动构图** — 每个分类有推荐构图组合（如视频软件用对角线动态/S曲线探索）
 - **品牌层级修正** — 自动识别高端（大厂/央媒）/精品（国际授权）品牌，注入对应的克制电影感/精品插画感
 - **内容安全约束** — 全局禁止具体货币符号、知名 IP、LGBT 元素、医疗金融误导；非母婴类强制视觉成熟度
 - **生图输出** — 调用配置的 API 直接出图，压缩至 ≤200KB
+
+---
+
+## 🚀 快速开始
+
+### 1. 准备环境
+```bash
+python3 --version   # 需要 3.9+
+
+cd app-store-cover-generator
+python3 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 2. 配置 API Key
+```bash
+# 方式 A：环境变量（推荐）
+export PACKY_API_KEY='sk-your_real_key_here'
+
+# 方式 B：.env 文件
+cp .env.example .env
+# 编辑 .env，填入 PACKY_API_KEY
+```
+
+### 3. 运行
+```bash
+# 单张生成
+python3 scripts/generate.py --name "番茄时钟" --category "办公.效率" --intro "专注计时，提升工作效率"
+
+# 批量生成（从数据源读取）
+python3 scripts/batch_generate.py --start 1 --end 20
+
+# 强制指定风格（1-12）
+python3 scripts/batch_generate.py --start 1 --end 5 --style 9
+```
+
+输出默认存到 `output/covers/`，文件名格式 `<PACKAGE_NAME>.jpg`，单张 ≤ 200KB。
 
 ---
 
@@ -126,7 +108,7 @@ python3 scripts/batch_generate.py --start 1 --end 5 --style 9
 
 完整 30 个分类映射见 `scripts/batch_generate.py` 顶部常量。游戏类 100% 覆盖（11 个子分类全部登记）。
 
-**选择规则**：`风格 = 风格池[行号 mod 风格池大小]`，行号 = CSV 1-based 行号。
+**选择规则**：`风格 = 风格池[行号 mod 风格池大小]`，行号 = 数据源 1-based 行号。
 
 **未登记分类回退**：按全局轮换 `1→2→3→5→6→7→8→9→10→11→12→1`，跳过 4，游戏类额外跳过 7/8/12。
 
@@ -298,26 +280,6 @@ python3 scripts/batch_generate.py --start 1 --end 5 --style 9
 
 ---
 
-## CSV 列名兼容
-
-脚本自动识别两种列名格式：
-
-| 标准英文 | 中文带括号 |
-|----------|------------|
-| `PACKAGE_NAME` | `包名(PACKAGE_NAME)` |
-| `APP_NAME` | `应用名称(APP_NAME)` |
-| `APP_LEVEL` | `等级(APP_LEVEL)` |
-| `S_INTRO` | `简介(S_INTRO)` |
-| `ICON_URL` | `图标URL(ICON_URL)` |
-| `HUMAN_DESC` | `描述(HUMAN_DESC)` |
-| `NAME` | `分类(NAME)` |
-| `PARENT_ID` | `父分类ID(PARENT_ID)` |
-| `TAGS` | （可选） |
-
-CSV 文件 BOM 头自动剥离（`utf-8-sig`）。
-
----
-
 ## 配置
 
 创建 `.env`，填入生图 API：
@@ -333,29 +295,13 @@ IMAGE_MODEL=<模型名>
 
 ---
 
-## 运行
-
-```bash
-# 默认（CSV_PATH 内置 + 前20条 + 默认输出目录）
-python3 scripts/batch_generate.py
-
-# 指定 CSV、范围、输出目录
-python3 scripts/batch_generate.py \
-  --csv "/path/to/data.csv" \
-  --start 1 --end 52 \
-  --outdir ~/Desktop/your_folder
-
-# 强制使用某个风格（自动跳过游戏类禁用风格）
-python3 scripts/batch_generate.py --style 9
-```
-
-**命令行参数：**
+## 批量运行参数
 
 | 参数 | 默认 | 说明 |
 |------|------|------|
-| `--csv` | 脚本内 `CSV_PATH` | CSV 文件路径 |
-| `--start` | 1 | CSV 起始行号（1-based，含） |
-| `--end` | 20 | CSV 结束行号（1-based，含） |
+| `--csv` | 脚本内 `CSV_PATH` | 数据源文件路径 |
+| `--start` | 1 | 起始行号（1-based，含） |
+| `--end` | 20 | 结束行号（1-based，含） |
 | `--style` | 0 | 强制风格 1-12（0=自动轮换） |
 | `--outdir` | 脚本内 `OUT_DIR` | 输出目录 |
 
