@@ -1,0 +1,8 @@
+# 应用商店封面图批量生成 — Python 依赖
+
+# 核心依赖
+requests>=2.32.0,<3.0
+Pillow>=10.0,<12.0
+
+# 可选依赖（推荐安装，用于从 .env 加载 PACKY_API_KEY）
+python-dotenv>=1.0
