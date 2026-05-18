@@ -278,41 +278,4 @@ python3 scripts/batch_generate.py --start 1 --end 5 --style 9
 | 撞色 | 90-120° | 红→紫，蓝→黄绿，橙→蓝 |
 | 邻近对比色 | 60-90° | 红→黄，蓝→绿，橙→绿 |
 
----
 
-## 配置
-
-创建 `.env`，填入生图 API：
-
-```env
-IMAGE_API=<openai / replicate / fal>
-IMAGE_BASE_URL=<你的 API 地址>
-IMAGE_API_KEY=<你的 Key>
-IMAGE_MODEL=<模型名>
-```
-
-当前使用 Packy API（gpt-image-2 模型，1536×1024 尺寸）。
-
----
-
-## 批量运行参数
-
-| 参数 | 默认 | 说明 |
-|------|------|------|
-| `--csv` | 脚本内 `CSV_PATH` | 数据源文件路径 |
-| `--start` | 1 | 起始行号（1-based，含） |
-| `--end` | 20 | 结束行号（1-based，含） |
-| `--style` | 0 | 强制风格 1-12（0=自动轮换） |
-| `--outdir` | 脚本内 `OUT_DIR` | 输出目录 |
-
-输出文件名格式：`PACKAGE_NAME.jpg`
-
----
-
-## 批次说明
-
-- 自动续接全局风格轮换（受 `--start` 行号影响）
-- 游戏类（`PARENT_ID=游戏`）自动跳过风格 7、8、12
-- 强制风格命中游戏禁用时自动顺延到下一个合法风格
-- 支持 OpenAI 兼容接口及 Replicate、Fal.ai
-- 输出 JPEG ≤200KB（PIL 自适应质量压缩）
