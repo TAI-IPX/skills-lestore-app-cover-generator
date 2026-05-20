@@ -2,20 +2,13 @@
 
 # App Store Cover Generator
 
-输入 App 名称、分类和一句话简介，自动生成 16:9 横版应用商店封面图。
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)]()
+面向设计师和运营，解决应用商店封面图批量出图的效率问题。只需提供 App 名称、分类和一句话简介，工具会自动提取品牌色、匹配视觉风格、生成符合平台规范的封面图，单张压缩至 200KB 以内。
 
 </div>
 
 ---
 
 ![效果预览](preview.png)
-
-## 这是什么
-
-面向设计师和运营，解决应用商店封面图批量出图的效率问题。只需提供 App 名称、分类和一句话简介，工具会自动提取品牌色、匹配视觉风格、生成符合平台规范的封面图，单张压缩至 200KB 以内。
 
 ## 功能
 
