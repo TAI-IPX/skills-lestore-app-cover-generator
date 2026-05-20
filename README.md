@@ -26,44 +26,6 @@
 - 🔒 **内容安全约束** — 全局过滤货币符号、版权 IP、违规元素
 - ⚡ **批量生成** — 从数据源批量读取，按行号轮选风格，支持断点续跑
 
-## 快速开始
-
-### 安装
-
-```bash
-git clone https://github.com/temurlee/skills-lestore-app-cover-generator
-cd skills-lestore-app-cover-generator
-python3 -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-### 配置
-
-```bash
-# 方式 A：环境变量（推荐）
-export PACKY_API_KEY='your_api_key'
-
-# 方式 B：.env 文件
-cp .env.example .env
-# 编辑 .env，填入 PACKY_API_KEY
-```
-
-### 运行
-
-```bash
-# 单张生成
-python3 scripts/generate.py --name "番茄时钟" --category "办公.效率" --intro "专注计时，提升工作效率"
-
-# 批量生成
-python3 scripts/batch_generate.py --start 1 --end 20
-
-# 强制指定风格（1-12）
-python3 scripts/batch_generate.py --start 1 --end 5 --style 9
-```
-
-输出默认存到 `output/covers/`，文件名格式 `<PACKAGE_NAME>.jpg`。
-
 ## 工作原理
 
 ```
